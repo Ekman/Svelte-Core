@@ -7,7 +7,11 @@ declare global {
   }
 }
 
-export function gtag(event: string, params?: Record<string, unknown>): void {
+export function gtag(
+  command: string,
+  event: string,
+  params?: Record<string, unknown>,
+): void {
   browserAssert();
-  window.gtag("event", event, params);
+  window.gtag(command, event, params);
 }
