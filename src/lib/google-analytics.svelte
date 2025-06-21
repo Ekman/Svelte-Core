@@ -14,12 +14,11 @@
 		 * Base URL to the site.
 		 * @default assets
 		 */
-		readonly baseUrl?: string;
+		readonly baseUrl?: URL;
 	}
 
 	const { id, baseUrl: baseUrlProps }: Props = $props();
-
-	const baseUrl = baseUrlProps ?? assets;
+	const baseUrl = baseUrlProps ?? new URL(assets);
 
 	onMount(() => {
 		window.dataLayer = window.dataLayer || [];
@@ -27,7 +26,7 @@
 			window.dataLayer.push(arguments);
 		}
 		window.gtag("js", new Date());
-		const config = page.url.hostname !== baseUrl ? { debug_mode: true } : {};
+		const config = page.url.hostname !== baseUrl.hostname ? { debug_mode: true } : {};
 		window.gtag("config", id, config);
 
 		return browserImportScript(`https://www.googletagmanager.com/gtag/js?id=${id}`);
