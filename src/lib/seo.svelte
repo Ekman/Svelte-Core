@@ -1,10 +1,11 @@
 <script lang="ts">
 	import icon from "../assets/icon.png";
 	import {assets} from "$app/paths";
+	import {type QueryParams, queryParamsCreate} from "@nekm/core";
 
 	interface Canonical {
 		readonly path?: string;
-		readonly queryString?: string;
+		readonly queryParams?: QueryParams;
 	}
 
 	interface Props {
@@ -28,8 +29,9 @@
 			url += `/${canonical.path}`;
 		}
 
-		if (canonical?.queryString) {
-			url += `?${canonical.queryString}`;
+		if (canonical?.queryParams) {
+			const queryParamsStr = queryParamsCreate(canonical.queryParams)
+			url += `?${queryParamsStr}`;
 		}
 
 		return url;
