@@ -1,5 +1,4 @@
 <script lang="ts">
-	import icon from "../assets/icon.png";
 	import {assets} from "$app/paths";
 	import {type QueryParams, queryParamsCreate} from "@nekm/core";
 
@@ -12,11 +11,12 @@
 		readonly appName: string;
 		readonly description: string;
 		readonly title: string;
+		readonly icon: string;
 		readonly canonical?: Canonical;
 		readonly next?: Canonical;
 	}
 
-	const { appName, description, title, canonical, next }: Props = $props();
+	const { appName, description, title, icon, canonical, next }: Props = $props();
 
 	function createCanonical(canonical?: Canonical, includeBaseUrl = false): string | undefined {
 		let url;
