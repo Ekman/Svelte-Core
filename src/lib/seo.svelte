@@ -2,23 +2,23 @@
 	import {assets} from "$app/paths";
 	import {type QueryParams, queryParamsCreate} from "@nekm/core";
 
-	interface Canonical {
+	export interface SeoCanonical {
 		readonly path?: string;
 		readonly queryParams?: QueryParams;
 	}
 
-	interface Props {
+	export interface SeoProps {
 		readonly appName: string;
 		readonly description: string;
 		readonly title: string;
 		readonly icon: string;
-		readonly canonical?: Canonical;
-		readonly next?: Canonical;
+		readonly canonical?: SeoCanonical;
+		readonly next?: SeoCanonical;
 	}
 
-	const { appName, description, title, icon, canonical, next }: Props = $props();
+	const { appName, description, title, icon, canonical, next }: SeoProps = $props();
 
-	function createCanonical(canonical?: Canonical, includeBaseUrl = false): string | undefined {
+	function createCanonical(canonical?: SeoCanonical, includeBaseUrl = false): string | undefined {
 		let url;
 
 		if (canonical || includeBaseUrl) {

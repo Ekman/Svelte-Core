@@ -4,7 +4,7 @@
 	import {browserImportScript} from "@nekm/core";
 	import {page} from "$app/state";
 
-	interface Props {
+	export interface GoogleAnalyticsProps {
 		/**
 		 * Google Analytics tracking ID.
 		 */
@@ -17,7 +17,7 @@
 		readonly baseUrl?: URL;
 	}
 
-	const { id, baseUrl: baseUrlProps }: Props = $props();
+	const { id, baseUrl: baseUrlProps }: GoogleAnalyticsProps = $props();
 	const baseUrl = baseUrlProps ?? new URL(assets);
 
 	onMount(() => {
