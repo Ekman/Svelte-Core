@@ -1,0 +1,32 @@
+version: 2.1
+orbs:
+  node: circleci/node@7
+jobs:
+  deploy:
+    executor:
+      name: node/default
+      resource_class: small
+    steps:
+      - checkout
+      - node/install-packages
+      - run: npm run build
+      - run:
+          name: Set version in package.json
+          command: >-
+            jq --arg ver "$CIRCLE_TAG" '.version = $ver' package.json >
+            /tmp/package.json && mv /tmp/package.json package.json
+      - run:
+          name: NPM publish
+          command: |-
+            echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+            npm publish --access=public
+workflows:
+  deploy:
+    jobs:
+      - deploy:
+          context: [npm]
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$/
+            branches:
+              ignore: /.*/
