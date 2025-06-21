@@ -14,15 +14,16 @@
 		readonly icon: string;
 		readonly canonical?: SeoCanonical;
 		readonly next?: SeoCanonical;
+		readonly baseUrl?: string;
 	}
 
-	const { appName, description, title, icon, canonical, next }: SeoProps = $props();
+	const { appName, description, title, icon, canonical, next, baseUrl }: SeoProps = $props();
 
 	function createCanonical(canonical?: SeoCanonical, includeBaseUrl = false): string | undefined {
 		let url;
 
 		if (canonical || includeBaseUrl) {
-			url = assets;
+			url = baseUrl ?? assets;
 		}
 
 		if (canonical?.path) {
