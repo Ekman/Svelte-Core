@@ -8,16 +8,20 @@
 	}
 
 	export interface SeoProps {
-		readonly appName: string;
+		readonly siteTitle: string;
 		readonly description: string;
-		readonly title: string;
+		readonly pageTitle: string;
+		readonly siteAndPageTitle?: {
+			readonly items: ReadonlyArray<string>;
+			readonly separator?: string;
+		}
 		readonly icon: string;
 		readonly canonical?: SeoCanonical;
 		readonly next?: SeoCanonical;
 		readonly baseUrl?: string;
 	}
 
-	const { appName, description, title, icon, canonical, next, baseUrl }: SeoProps = $props();
+	const { siteTitle, description, pageTitle, icon, canonical, next, baseUrl, siteAndPageTitle }: SeoProps = $props();
 
 	function createCanonical(canonical?: SeoCanonical, includeBaseUrl = false): string | undefined {
 		let url;
@@ -48,10 +52,14 @@
 	$effect(() => {
 		nextUrl = createCanonical(next);
 	});
+
+	const metaTitle = !siteAndPageTitle
+		? `${siteTitle} - ${siteTitle}`
+		: siteAndPageTitle.items.join(siteAndPageTitle.separator ?? "-");
 </script>
 
 <svelte:head>
-	<title>{appName} &raquo; {title}</title>
+	<title>{metaTitle}</title>
 	<meta name="description" content={description} />
 	<link rel="canonical" href={canonicalUrl} />
 
@@ -59,20 +67,20 @@
 		<link rel="next" href={nextUrl} />
 	{/if}
 
-	<meta property="og:site_name" content={appName} />
-	<meta property="og:title" content={title} />
+	<meta property="og:site_name" content={siteTitle} />
+	<meta property="og:title" content={pageTitle} />
 	<meta property="og:description" content={description} />
 	<meta property="og:image" content={icon} />
 	<meta property="og:image:secure_url" content={icon} />
 	<meta property="og:image:width" content="1024" />
 	<meta property="og:image:height" content="1024" />
 	<meta property="og:image:type" content="image/png" />
-	<meta property="og:image:alt" content={`${appName} logo`} />
+	<meta property="og:image:alt" content={`${siteTitle} logo`} />
 	<meta property="og:url" content={canonicalUrl} />
 	<meta property="og:type" content="website" />
 
 	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:title" content={title} />
+	<meta name="twitter:title" content={pageTitle} />
 	<meta name="twitter:description" content={description} />
 	<meta name="twitter:image" content={icon} />
 	<meta name="twitter:creator" content="@iamBraska" />
