@@ -55,7 +55,7 @@
 
 	const metaTitle = !siteAndPageTitle
 		? `${siteTitle} - ${siteTitle}`
-		: siteAndPageTitle.items.join(siteAndPageTitle.separator ?? "-");
+		: siteAndPageTitle.items.join(siteAndPageTitle.separator ?? " - ");
 </script>
 
 <svelte:head>
