@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {type QueryParams, queryParamsCreate, strTrimEnd} from "@nekm/core";
+	import {type QueryParams, queryParamsCreate, strTrimEnd, strTrimStart} from "@nekm/core";
 
 	export interface SeoCanonical {
 		readonly path?: string;
@@ -46,7 +46,7 @@
 
 	// Starts with http or https. I.e, is an absolute URL.
 	const iconHref = !icon.href.match(/^https?:\/\//ig)
-		? `${strTrimEnd(origin, "/")}/${icon.href}`
+		? `${strTrimEnd(origin, "/")}/${strTrimStart(icon.href, "/")}`
 		: icon.href;
 
 	let canonicalUrl = $state(createCanonical(canonical, true));
