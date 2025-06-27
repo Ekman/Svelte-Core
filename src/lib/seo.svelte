@@ -1,5 +1,4 @@
 <script lang="ts">
-	import {assets} from "$app/paths";
 	import {type QueryParams, queryParamsCreate} from "@nekm/core";
 
 	export interface SeoCanonical {
@@ -9,25 +8,21 @@
 
 	export interface SeoProps {
 		readonly siteTitle: string;
-		readonly description: string;
 		readonly pageTitle: string;
-		readonly siteAndPageTitle?: {
-			readonly items: ReadonlyArray<string>;
-			readonly separator?: string;
-		}
+		readonly description: string;
 		readonly icon: string;
 		readonly canonical?: SeoCanonical;
 		readonly next?: SeoCanonical;
-		readonly baseUrl?: string;
+		readonly origin: string;
 	}
 
-	const { siteTitle, description, pageTitle, icon, canonical, next, baseUrl, siteAndPageTitle }: SeoProps = $props();
+	const { siteTitle, description, pageTitle, icon, canonical, next, origin }: SeoProps = $props();
 
 	function createCanonical(canonical?: SeoCanonical, includeBaseUrl = false): string | undefined {
 		let url;
 
 		if (canonical || includeBaseUrl) {
-			url = baseUrl ?? assets;
+			url = origin;
 		}
 
 		if (canonical?.path) {
@@ -52,14 +47,10 @@
 	$effect(() => {
 		nextUrl = createCanonical(next);
 	});
-
-	const metaTitle = !siteAndPageTitle
-		? `${siteTitle} - ${siteTitle}`
-		: siteAndPageTitle.items.join(siteAndPageTitle.separator ?? " - ");
 </script>
 
 <svelte:head>
-	<title>{metaTitle}</title>
+	<title>{pageTitle} | {siteTitle}</title>
 	<meta name="description" content={description} />
 	<link rel="canonical" href={canonicalUrl} />
 
