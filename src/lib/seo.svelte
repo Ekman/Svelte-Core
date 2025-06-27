@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {type QueryParams, queryParamsCreate} from "@nekm/core";
+	import {type QueryParams, queryParamsCreate, strTrimEnd} from "@nekm/core";
 
 	export interface SeoCanonical {
 		readonly path?: string;
@@ -44,6 +44,11 @@
 		return url;
 	}
 
+	// Starts with http or https. I.e, is an absolute URL.
+	const iconHref = !icon.href.match(/^https?:\/\//ig)
+		? `${strTrimEnd(origin, "/")}/${icon.href}`
+		: icon.href;
+
 	let canonicalUrl = $state(createCanonical(canonical, true));
 	let nextUrl = $state(createCanonical(next));
 
@@ -68,8 +73,8 @@
 	<meta property="og:site_name" content={siteTitle} />
 	<meta property="og:title" content={pageTitle} />
 	<meta property="og:description" content={description} />
-	<meta property="og:image" content={icon.href} />
-	<meta property="og:image:secure_url" content={icon.href} />
+	<meta property="og:image" content={iconHref} />
+	<meta property="og:image:secure_url" content={iconHref} />
 	<meta property="og:image:width" content={"" + icon.width} />
 	<meta property="og:image:height" content={"" + icon.height} />
 	<meta property="og:image:type" content={icon.mimeContentType} />
@@ -80,6 +85,6 @@
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:title" content={pageTitle} />
 	<meta name="twitter:description" content={description} />
-	<meta name="twitter:image" content={icon.href} />
+	<meta name="twitter:image" content={iconHref} />
 	<meta name="twitter:creator" content="@iamBraska" />
 </svelte:head>

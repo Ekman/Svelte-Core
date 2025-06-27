@@ -47,6 +47,6 @@
     "svelte"
   ],
   "dependencies": {
-    "@nekm/core": "^1.0.0"
+    "@nekm/core": "^1.0.1"
   }
 }
