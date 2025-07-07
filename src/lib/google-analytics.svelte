@@ -39,3 +39,7 @@
 		return browserImportScript(`https://www.googletagmanager.com/gtag/js?id=${id}`);
 	});
 </script>
+
+<svelte:head>
+	<link rel="preconnect" href="https://www.googletagmanager.com" />
+</svelte:head>
