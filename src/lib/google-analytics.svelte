@@ -18,17 +18,17 @@
 
 	const { id, productionDomain }: GoogleAnalyticsProps = $props();
 
-	const productionDomainStr = productionDomain && productionDomain instanceof URL ? productionDomain.hostname : productionDomain;
+	onMount(() => {
+		const productionDomainStr = productionDomain && productionDomain instanceof URL ? productionDomain.hostname : productionDomain;
 
-	function createConfig() {
-		if (!productionDomainStr) {
-			return {};
+		function createConfig() {
+			if (!productionDomainStr) {
+				return {};
+			}
+
+			return page.url.hostname !== productionDomainStr ? { debug_mode: true } : {};
 		}
 
-		return page.url.hostname !== productionDomainStr ? { debug_mode: true } : {};
-	}
-
-	onMount(() => {
 		window.dataLayer = window.dataLayer || [];
 		window.gtag = function () {
 			window.dataLayer.push(arguments);
