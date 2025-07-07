@@ -13,17 +13,19 @@
 		 * Base domain to the production site. If the current domain does not match
 		 * this, then Google Analytics will send debug data only.
 		 */
-		readonly productionDomain?: string;
+		readonly productionDomain?: string | URL;
 	}
 
 	const { id, productionDomain }: GoogleAnalyticsProps = $props();
 
+	const productionDomainStr = productionDomain instanceof URL ? productionDomain.hostname : productionDomain;
+
 	function createConfig() {
-		if (!productionDomain) {
+		if (!productionDomainStr) {
 			return {};
 		}
 
-		return page.url.hostname !== productionDomain ? { debug_mode: true } : {};
+		return page.url.hostname !== productionDomainStr ? { debug_mode: true } : {};
 	}
 
 	onMount(() => {
