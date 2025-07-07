@@ -19,14 +19,11 @@
 	const { id, productionDomain }: GoogleAnalyticsProps = $props();
 
 	onMount(() => {
-		const productionDomainStr = productionDomain && productionDomain instanceof URL ? productionDomain.hostname : productionDomain;
+		let config = {};
 
-		function createConfig() {
-			if (!productionDomainStr) {
-				return {};
-			}
-
-			return page.url.hostname !== productionDomainStr ? { debug_mode: true } : {};
+		if (productionDomain) {
+			const productionDomainStr = productionDomain instanceof URL ? productionDomain.hostname : productionDomain;
+			config = page.url.hostname !== productionDomainStr ? { debug_mode: true } : {};
 		}
 
 		window.dataLayer = window.dataLayer || [];
@@ -34,7 +31,7 @@
 			window.dataLayer.push(arguments);
 		}
 		window.gtag("js", new Date());
-		window.gtag("config", id, createConfig());
+		window.gtag("config", id, config);
 
 		return browserImportScript(`https://www.googletagmanager.com/gtag/js?id=${id}`);
 	});
