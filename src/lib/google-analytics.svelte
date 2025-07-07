@@ -18,7 +18,7 @@
 
 	const { id, productionDomain }: GoogleAnalyticsProps = $props();
 
-	const productionDomainStr = productionDomain instanceof URL ? productionDomain.hostname : productionDomain;
+	const productionDomainStr = productionDomain && productionDomain instanceof URL ? productionDomain.hostname : productionDomain;
 
 	function createConfig() {
 		if (!productionDomainStr) {
