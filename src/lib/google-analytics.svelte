@@ -23,7 +23,10 @@
 
 		if (productionDomain) {
 			const productionDomainStr = productionDomain instanceof URL ? productionDomain.hostname : productionDomain;
-			config = page.url.hostname !== productionDomainStr ? { debug_mode: true } : {};
+
+			if (page.url.hostname !== productionDomainStr) {
+				config = { debug_mode: true };
+			}
 		}
 
 		window.dataLayer = window.dataLayer || [];
