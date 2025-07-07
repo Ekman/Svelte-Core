@@ -1,6 +1,6 @@
 {
   "name": "@nekm/svelte-core",
-	"description": "Code I find myself re-writing over-and-over, Svelte edition.",
+  "description": "Code I find myself re-writing over-and-over, Svelte edition.",
   "version": "0.0.1",
   "scripts": {
     "dev": "vite dev",

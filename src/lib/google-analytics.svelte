@@ -16,16 +16,20 @@
 		readonly productionDomain?: string | URL;
 	}
 
+	interface GoogleAnalyticsConfig {
+		readonly debug_mode?: boolean;
+	}
+
 	const { id, productionDomain }: GoogleAnalyticsProps = $props();
 
 	onMount(() => {
-		let config = {};
+		let config: GoogleAnalyticsConfig = { debug_mode: true };
 
 		if (productionDomain) {
 			const productionDomainStr = productionDomain instanceof URL ? productionDomain.hostname : productionDomain;
 
-			if (page.url.hostname !== productionDomainStr) {
-				config = { debug_mode: true };
+			if (page.url.hostname === productionDomainStr) {
+				config = {};
 			}
 		}
 
