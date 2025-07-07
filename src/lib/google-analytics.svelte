@@ -10,12 +10,21 @@
 		readonly id: string;
 
 		/**
-		 * Base domain to the site.
+		 * Base domain to the production site. If the current domain does not match
+		 * this, then Google Analytics will send debug data only.
 		 */
-		readonly baseDomain: string;
+		readonly productionDomain?: string;
 	}
 
-	const { id, baseDomain }: GoogleAnalyticsProps = $props();
+	const { id, productionDomain }: GoogleAnalyticsProps = $props();
+
+	function createConfig() {
+		if (!productionDomain) {
+			return {};
+		}
+
+		return page.url.hostname !== productionDomain ? { debug_mode: true } : {};
+	}
 
 	onMount(() => {
 		window.dataLayer = window.dataLayer || [];
@@ -23,8 +32,7 @@
 			window.dataLayer.push(arguments);
 		}
 		window.gtag("js", new Date());
-		const config = page.url.hostname !== baseDomain ? { debug_mode: true } : {};
-		window.gtag("config", id, config);
+		window.gtag("config", id, createConfig());
 
 		return browserImportScript(`https://www.googletagmanager.com/gtag/js?id=${id}`);
 	});
