@@ -8,10 +8,12 @@
 
 	const { date }: Props = $props();
 
-	const isoString = date.toISOString();
-	let formatted = $state(isoString);
+	const isoString = $derived(date.toISOString());
+	let formatted = $state(localeFormatDate(date));
 
 	onMount(() => {
+		// Want to rerun this on mount as we want to use the browser
+		// locale.
 		formatted = localeFormatDate(date);
 	})
 </script>
