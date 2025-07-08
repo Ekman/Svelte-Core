@@ -7,7 +7,7 @@
 	const { date, locale }: DateTimeProps = $props();
 
 	const formatted = $derived.by(() => {
-		const intl = Intl.DateTimeFormat(
+		const intl = new Intl.DateTimeFormat(
 			locale,
 			{
 				dateStyle: "medium",
