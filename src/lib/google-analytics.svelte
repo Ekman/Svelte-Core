@@ -22,12 +22,12 @@
 
 	const { id, productionDomain }: GoogleAnalyticsProps = $props();
 
+	const productionDomainStr = $derived(productionDomain instanceof URL ? productionDomain.hostname : productionDomain);
+
 	onMount(() => {
 		let config: GoogleAnalyticsConfig = { debug_mode: true };
 
 		if (productionDomain) {
-			const productionDomainStr = productionDomain instanceof URL ? productionDomain.hostname : productionDomain;
-
 			if (page.url.hostname === productionDomainStr) {
 				config = {};
 			}
