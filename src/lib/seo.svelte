@@ -45,20 +45,14 @@
 	}
 
 	// Starts with http or https. I.e, is an absolute URL.
-	const iconHref = !icon.href.match(/^https?:\/\//ig)
-		? `${strTrimEnd(origin, "/")}/${strTrimStart(icon.href, "/")}`
-		: icon.href;
-
-	let canonicalUrl = $state(createCanonical(canonical, true));
-	let nextUrl = $state(createCanonical(next));
-
-	$effect(() => {
-		canonicalUrl = createCanonical(canonical, true);
+	const iconHref = $derived.by(() => {
+		return !icon.href.match(/^https?:\/\//ig)
+			? `${strTrimEnd(origin, "/")}/${strTrimStart(icon.href, "/")}`
+			: icon.href;
 	});
 
-	$effect(() => {
-		nextUrl = createCanonical(next);
-	});
+	const canonicalUrl = $derived(createCanonical(canonical, true));
+	const nextUrl = $derived(createCanonical(next));
 </script>
 
 <svelte:head>
