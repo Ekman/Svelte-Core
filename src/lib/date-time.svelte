@@ -1,21 +1,15 @@
 <script lang="ts">
-	import {onMount} from "svelte";
 	import {localeFormatDate} from "$lib/locale.js";
 
 	interface Props {
 		readonly date: Date;
+		readonly locale?: string;
 	}
 
-	const { date }: Props = $props();
+	const { date, locale }: Props = $props();
 
 	const isoString = $derived(date.toISOString());
-	let formatted = $state(localeFormatDate(date));
-
-	onMount(() => {
-		// Want to rerun this on mount as we want to use the browser
-		// locale.
-		formatted = localeFormatDate(date);
-	})
+	const formatted = $derived(localeFormatDate(date, locale));
 </script>
 
 <time datetime={isoString}>
