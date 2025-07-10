@@ -22,6 +22,8 @@
 
 	const { id, productionDomain }: GoogleAnalyticsProps = $props();
 
+	const url = "https://www.googletagmanager.com";
+
 	const productionDomainStr = $derived(productionDomain instanceof URL ? productionDomain.hostname : productionDomain);
 
 	onMount(() => {
@@ -40,10 +42,10 @@
 		window.gtag("js", new Date());
 		window.gtag("config", id, config);
 
-		return browserImportScript(`https://www.googletagmanager.com/gtag/js?id=${id}`);
+		return browserImportScript(`${url}/gtag/js?id=${id}`);
 	});
 </script>
 
 <svelte:head>
-	<link rel="preconnect" href="https://www.googletagmanager.com" />
+	<link rel="dns-prefetch" href={url} />
 </svelte:head>
