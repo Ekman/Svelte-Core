@@ -8,3 +8,6 @@ export * from "./seo.svelte";
 
 export { default as DateTime } from "./date-time.svelte";
 export * from "./date-time.svelte";
+
+export { default as CookieConsentPopupsmart } from "./cookie-consent-popupsmart.svelte";
+export * from "./cookie-consent-popupsmart.svelte";
