@@ -8,10 +8,10 @@
 
 	const { key }: AhrefsProps = $props();
 
-	const url = "https://analytics.ahrefs.com/analytics.js";
+	const url = "https://analytics.ahrefs.com";
 
 	onMount(() => {
-		return browserImportScript(url, {
+		return browserImportScript(`${url}/analytics.js`, {
 			attributes: { "data-key": key },
 		});
 	});
