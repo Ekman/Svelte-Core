@@ -1,7 +1,10 @@
-export * from "./google-analytics.js";
+export * from "./analytics/google-analytics.js";
 
-export { default as GoogleAnalytics } from "./google-analytics.svelte";
-export * from "./google-analytics.svelte";
+export { default as GoogleAnalytics } from "./analytics/google-analytics.svelte";
+export * from "./analytics/google-analytics.svelte";
+
+export { default as Ahrefs } from "./analytics/ahrefs.svelte";
+export * from "./analytics/ahrefs.svelte";
 
 export { default as Seo } from "./seo.svelte";
 export * from "./seo.svelte";

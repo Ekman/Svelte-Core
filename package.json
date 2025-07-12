@@ -42,7 +42,7 @@
     "svelte"
   ],
   "dependencies": {
-    "@nekm/core": "^1.0.1",
+    "@nekm/core": "^1.1.0",
     "@sveltejs/kit": "^2.22.4",
     "svelte": "^5.35.5"
   }
