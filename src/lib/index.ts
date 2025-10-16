@@ -14,3 +14,6 @@ export * from "./date-time.svelte";
 
 export { default as CookieConsentPopupsmart } from "./cookie-consent-popupsmart.svelte";
 export * from "./cookie-consent-popupsmart.svelte";
+
+export { default as LdJson } from "./ld-json.svelte";
+export * from "./ld-json.svelte";
