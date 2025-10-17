@@ -4,7 +4,7 @@
 		readonly format?: boolean;
 	}
 
-	const { schema, format } = $props();
+	const { schema, format }: LdJsonProps = $props();
 
 	const json = $derived(JSON.stringify(schema, undefined, format ? 2 : undefined));
 </script>
