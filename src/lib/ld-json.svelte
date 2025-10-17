@@ -1,11 +1,12 @@
 <script lang="ts">
 	export interface LdJsonProps {
 		readonly schema: Record<string, unknown>;
+		readonly format?: boolean;
 	}
 
-	const { schema } = $props();
+	const { schema, format } = $props();
 
-	const json = $derived(JSON.stringify(schema, undefined, 2));
+	const json = $derived(JSON.stringify(schema, undefined, format ? 2 : undefined));
 </script>
 
 <svelte:head>
