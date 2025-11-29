@@ -17,3 +17,6 @@ export * from "./cookie-consent-popupsmart.svelte";
 
 export { default as LdJson } from "./ld-json.svelte";
 export * from "./ld-json.svelte";
+
+export { default as ExternalLink } from "./external-link.svelte";
+export * from "./external-link.svelte";
