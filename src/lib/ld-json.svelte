@@ -1,12 +1,16 @@
 <script lang="ts">
+	import {objectRemoveEmpty} from "@nekm/core";
+	import {dev} from "$app/environment";
+
 	export interface LdJsonProps {
 		readonly schema: Record<string, unknown>;
 		readonly format?: boolean;
 	}
 
-	const { schema, format }: LdJsonProps = $props();
+	const { schema, format = dev }: LdJsonProps = $props();
 
-	const json = $derived(JSON.stringify(schema, undefined, format ? 2 : undefined));
+	const schemaWithoutEmpty = $derived(objectRemoveEmpty(schema));
+	const json = $derived(JSON.stringify(schemaWithoutEmpty, undefined, format ? 2 : undefined));
 </script>
 
 <svelte:head>
