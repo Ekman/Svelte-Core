@@ -20,3 +20,5 @@ export * from "./ld-json.svelte";
 
 export { default as ExternalLink } from "./external-link.svelte";
 export * from "./external-link.svelte";
+
+export * from "./hooks.ts";
