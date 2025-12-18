@@ -11,11 +11,17 @@
 
 	const { href, children, type = "nofollow", origin }: ExternalLinkProps = $props();
 
-	const source = $derived(origin ?? page.url.origin);
+	const host = $derived.by(() => {
+		if (!origin) {
+			return page.url.host;
+		}
+
+		return origin.replace(/http(s)?:\/\//ig, "");
+	});
 
 	const hrefWithSource = $derived.by(() => {
 		const sign = href.includes("?") ? "&" : "?";
-		return href + sign + `utm_source=${encodeURIComponent(source)}`;
+		return href + sign + `utm_source=${encodeURIComponent(host)}`;
 	});
 
 	const rel = $derived(type === "dofollow" ? undefined : type);
