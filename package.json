@@ -45,5 +45,8 @@
     "@nekm/core": "1.*",
     "@sveltejs/kit": "2.*",
     "svelte": "5.*"
-  }
+  },
+	"optionalDependencies": {
+		"aws-jwt-verify": "^5.1.1"
+	}
 }
