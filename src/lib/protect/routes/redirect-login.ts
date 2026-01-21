@@ -12,7 +12,7 @@ export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) =
 		fetch: typeof window.fetch,
 		origin: string,
 		code: string,
-	): Promise<any> {
+	): Promise<unknown> {
 		const response = await fetch(
 			`${config.oauth.baseUrl}/oauth2/token`,
 			{
@@ -31,12 +31,7 @@ export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) =
 			}
 		);
 
-		const token: any = await response.json();
-
-		const now = new Date();
-		now.setUTCSeconds(now.getUTCSeconds() + token.expires_in);
-
-		return { ...token, expires_at: now };
+		return await response.json();
 	}
 
 	return {
@@ -53,7 +48,9 @@ export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) =
 			throwIfUndefined(code);
 
 			const authToken = await exchangeCodeForToken(fetch, event.url.origin, code);
+			// @ts-expect-error Ignore, for now
 			const idToken = await config.jwtDecodeAndVerifyIdToken(authToken.id_token);
+			// @ts-expect-error Ignore, for now
 			const accessToken = await config.jwtDecodeAndVerifyAccessToken(authToken.access_token);
 
 			await onLogin(authToken, idToken, accessToken);
