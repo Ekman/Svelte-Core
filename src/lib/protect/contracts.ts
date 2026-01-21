@@ -1,15 +1,25 @@
 import type { Handle, RequestEvent } from "@sveltejs/kit";
 
-type ProtectEvent<T = string> = (event: RequestEvent) => Promise<T> | T;
-
-export interface ProtectConfig {
-	readonly protect: ProtectEvent<boolean>;
-	readonly sessionExists: () => ProtectEvent<boolean>
-	readonly callback: {
-		readonly createLoginUrl: ProtectEvent;
-		readonly createRedirectLoginUrl: ProtectEvent;
-		readonly createLogoutUrl: ProtectEvent;
-		readonly createRedirectLogoutUrl: ProtectEvent;
+export interface ProtectConfig<TAuthToken = unknown, TIdToken = unknown, TAccessToken = unknown> {
+	readonly protect?: (event: RequestEvent) => Promise<boolean> | boolean;
+	readonly jwtDecodeAndVerifyIdToken: (token: string) => Promise<TIdToken> | TIdToken;
+	readonly jwtDecodeAndVerifyAccessToken: (token: string) => Promise<TAccessToken> | TAccessToken;
+	readonly session: {
+		readonly exists: (event: RequestEvent) => (event: RequestEvent) => Promise<boolean> | boolean;
+		readonly stateGenerate: () => Promise<string> | string;
+		readonly stateGet: () => Promise<string> | string;
+	};
+	readonly hooks?: {
+		readonly onLogout?: () => Promise<void> | void;
+		readonly onLogin?: (authToken: TAuthToken, idToken: TIdToken, accessToken: TAccessToken) => Promise<void> | void;
+	};
+	readonly oauth: {
+		readonly clientId: string;
+		readonly clientSecret: string;
+		readonly scope?: string;
+		readonly baseUrl: string;
+		readonly authorizePath?: string;
+		readonly logoutPath?: string;
 	}
 }
 
@@ -18,4 +28,4 @@ export interface Route {
 	readonly handle: Handle;
 }
 
-export type RouteFactory = (config: ProtectConfig) => Route;
+export type RouteFactory = (config: ProtectConfig) => Route | undefined;
