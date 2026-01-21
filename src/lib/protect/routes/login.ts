@@ -18,7 +18,6 @@ export const routeLoginFactory: RouteFactory = (config: ProtectConfig) => {
 				client_id: config.oauth.clientId,
 				response_type: "code",
 				redirect_uri: getRedirectUri(event.url.origin, ROUTE_PATH_REDIRECT_LOGIN),
-				scope: config.oauth.scope,
 				state,
 			});
 

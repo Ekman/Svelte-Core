@@ -16,7 +16,6 @@ export interface ProtectConfig<TAuthToken = unknown, TIdToken = unknown, TAccess
 	readonly oauth: {
 		readonly clientId: string;
 		readonly clientSecret: string;
-		readonly scope?: string;
 		readonly baseUrl: string;
 		readonly authorizePath?: string;
 		readonly logoutPath?: string;
