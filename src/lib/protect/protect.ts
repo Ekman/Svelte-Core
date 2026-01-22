@@ -2,7 +2,7 @@ import { error, redirect, type Handle } from "@sveltejs/kit";
 import { ROUTE_PATH_LOGIN } from "./routes/login.js";
 import type { ProtectConfig } from "./contracts.js";
 import { ROUTE_PATH_LOGOUT } from "./routes/logout.js";
-import { routeCreate } from "./routes/routes.ts";
+import { routeCreate } from "./routes/routes.js";
 
 export const PROTECT_LOGIN = "/" + ROUTE_PATH_LOGIN;
 export const PROTECT_LOGOUT = "/" + ROUTE_PATH_LOGOUT;

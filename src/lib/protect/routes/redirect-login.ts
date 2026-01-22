@@ -3,7 +3,7 @@ import type { ProtectConfig } from "../contracts.js";
 import { throwIfUndefined } from "@nekm/core";
 import { getRedirectUri, jwtVerifyAccessToken, jwtVerifyIdToken } from "../helper.js";
 import { createRemoteJWKSet } from "jose";
-import type { RouteFactory } from "./routes.ts";
+import type { RouteFactory } from "./routes.js";
 
 export const ROUTE_PATH_REDIRECT_LOGIN = "_auth/redirect/login";
 

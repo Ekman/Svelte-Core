@@ -4,7 +4,7 @@ import { queryParamsCreate } from "@nekm/core";
 import { getRedirectUri } from "../helper.js";
 import { ROUTE_PATH_REDIRECT_LOGIN } from "./redirect-login.js";
 import { randomUUID } from "node:crypto";
-import type { RouteFactory } from "./routes.ts";
+import type { RouteFactory } from "./routes.js";
 
 export const ROUTE_PATH_LOGIN = "_auth/login";
 

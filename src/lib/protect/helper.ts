@@ -1,5 +1,5 @@
 import { strTrimEnd } from "@nekm/core";
-import type { ProtectConfig } from "./contracts.ts";
+import type { ProtectConfig } from "./contracts.js";
 import { jwtVerify } from "jose";
 
 export function getRedirectUri(origin: string, path: string): string {

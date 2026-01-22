@@ -3,7 +3,7 @@ import type { ProtectConfig } from "../contracts.js";
 import { queryParamsCreate } from "@nekm/core";
 import { getRedirectUri } from "../helper.js";
 import { ROUTE_PATH_REDIRECT_LOGOUT } from "./redirect-logout.js";
-import type { RouteFactory } from "./routes.ts";
+import type { RouteFactory } from "./routes.js";
 
 export const ROUTE_PATH_LOGOUT = "_auth/logout";
 

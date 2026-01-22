@@ -1,9 +1,9 @@
 import type { Handle } from "@sveltejs/kit";
-import type { ProtectConfig } from "../contracts.ts";
-import { routeLoginFactory } from "./login.ts";
-import { routeLogoutFactory } from "./logout.ts";
-import { routeRedirectLogoutFactory } from "./redirect-logout.ts";
-import { routeRedirectLoginFactory } from "./redirect-login.ts";
+import type { ProtectConfig } from "../contracts.js";
+import { routeLoginFactory } from "./login.js";
+import { routeLogoutFactory } from "./logout.js";
+import { routeRedirectLogoutFactory } from "./redirect-logout.js";
+import { routeRedirectLoginFactory } from "./redirect-login.js";
 
 export interface Route {
 	readonly path: string;
