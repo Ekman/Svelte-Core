@@ -5,7 +5,7 @@ export interface ProtectConfig<TAuthToken = unknown, TIdToken = unknown, TAccess
 	readonly jwtDecodeAndVerifyIdToken: (token: string) => Promise<TIdToken> | TIdToken;
 	readonly jwtDecodeAndVerifyAccessToken: (token: string) => Promise<TAccessToken> | TAccessToken;
 	readonly session: {
-		readonly exists: (event: RequestEvent) => (event: RequestEvent) => Promise<boolean> | boolean;
+		readonly exists: (event: RequestEvent) => Promise<boolean> | boolean;
 		readonly stateGenerate: () => Promise<string> | string;
 		readonly stateGet: () => Promise<string> | string;
 	};
