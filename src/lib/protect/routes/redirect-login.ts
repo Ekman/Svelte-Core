@@ -3,7 +3,7 @@ import type { ProtectConfig, RouteFactory } from "../contracts.ts";
 import { noop, throwIfUndefined } from "@nekm/core";
 import { getRedirectUri } from "../helper.ts";
 
-export const ROUTE_PATH_REDIRECT_LOGIN = "_auth/redirect/login";
+export const ROUTE_PATH_REDIRECT_LOGIN = "/_auth/redirect/login";
 
 export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) => {
 	const onLogin = config.hooks?.onLogin ?? noop;
