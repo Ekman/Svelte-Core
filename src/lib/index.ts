@@ -23,5 +23,5 @@ export * from "./external-link.svelte";
 
 export * from "./hooks.js";
 
-export * from "./protect/protect.ts";
-export type { ProtectConfig } from "./protect/contracts.ts";
+export * from "./protect/protect.js";
+export type { ProtectConfig } from "./protect/contracts.js";
