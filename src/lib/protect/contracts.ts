@@ -1,15 +1,15 @@
 import type { Handle, RequestEvent } from "@sveltejs/kit";
 
-export interface ProtectTokens<TAuthToken = unknown, TIdToken = unknown, TAccessToken = unknown> {
-	readonly auth: TAuthToken;
-	readonly id: TIdToken;
-	readonly access: TAccessToken;
+export interface ProtectTokens {
+	readonly auth: unknown;
+	readonly id: unknown;
+	readonly access: unknown;
 }
 
-export interface ProtectConfig<TAuthToken = unknown, TIdToken = unknown, TAccessToken = unknown> {
+export interface ProtectConfig {
 	readonly protect?: (event: RequestEvent) => Promise<boolean> | boolean;
-	readonly jwtDecodeAndVerifyIdToken: (token: string) => Promise<TIdToken> | TIdToken;
-	readonly jwtDecodeAndVerifyAccessToken: (token: string) => Promise<TAccessToken> | TAccessToken;
+	readonly jwtDecodeAndVerifyIdToken: (token: string) => Promise<unknown> | unknown;
+	readonly jwtDecodeAndVerifyAccessToken: (token: string) => Promise<unknown> | unknown;
 	readonly session: {
 		readonly exists: (event: RequestEvent) => Promise<boolean> | boolean;
 		readonly stateGenerate: (event: RequestEvent) => Promise<string> | string;
@@ -17,7 +17,7 @@ export interface ProtectConfig<TAuthToken = unknown, TIdToken = unknown, TAccess
 	};
 	readonly hooks?: {
 		readonly onLogout?: (event: RequestEvent) => Promise<void> | void;
-		readonly onLogin?: (event: RequestEvent, tokens: ProtectTokens<TAuthToken, TIdToken, TAccessToken>) => Promise<void> | void;
+		readonly onLogin?: (event: RequestEvent, tokens: ProtectTokens) => Promise<void> | void;
 	};
 	readonly oauth: {
 		readonly clientId: string;
