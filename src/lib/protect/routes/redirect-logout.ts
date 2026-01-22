@@ -14,8 +14,8 @@ export const routeRedirectLogoutFactory: RouteFactory = (config: ProtectConfig) 
 
 	return {
 		path: ROUTE_PATH_REDIRECT_LOGOUT,
-		async handle() {
-			await onLogout();
+		async handle({ event }) {
+			await onLogout(event);
 			throw redirect(302, "/");
 		}
 	}
