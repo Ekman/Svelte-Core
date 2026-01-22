@@ -1,6 +1,6 @@
 import { redirect } from "@sveltejs/kit";
 import type { ProtectConfig } from "../contracts.js";
-import { noop, throwIfUndefined } from "@nekm/core";
+import { throwIfUndefined } from "@nekm/core";
 import { getRedirectUri, jwtVerifyAccessToken, jwtVerifyIdToken } from "../helper.js";
 import { createRemoteJWKSet } from "jose";
 import type { RouteFactory } from "./routes.ts";
@@ -8,7 +8,6 @@ import type { RouteFactory } from "./routes.ts";
 export const ROUTE_PATH_REDIRECT_LOGIN = "_auth/redirect/login";
 
 export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) => {
-	const stateGet = config.session.stateGet ?? noop;
 	const jwksUrl = new URL(config.oauth.jwksUrl);
 
 	async function exchangeCodeForToken(
@@ -41,7 +40,7 @@ export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) =
 		path: ROUTE_PATH_REDIRECT_LOGIN,
 		async handle({ event }) {
 			const state = event.url.searchParams.get("state") ?? undefined;;
-			const stateSession = await stateGet(event);
+			const stateSession = await config.session.stateGet(event);
 
 			if (state !== stateSession) {
 				throw new Error("State do not match");

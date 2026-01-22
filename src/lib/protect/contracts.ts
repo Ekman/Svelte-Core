@@ -9,8 +9,8 @@ export interface ProtectTokens {
 export interface ProtectConfig {
 	readonly session: {
 		readonly exists: (event: RequestEvent) => Promise<boolean> | boolean;
-		readonly statePersist?: (event: RequestEvent, state: string) => Promise<void> | void;
-		readonly stateGet?: (event: RequestEvent) => Promise<string> | string;
+		readonly statePersist: (event: RequestEvent, state: string) => Promise<void> | void;
+		readonly stateGet: (event: RequestEvent) => Promise<string> | string;
 		readonly login: (event: RequestEvent, tokens: ProtectTokens) => Promise<void> | void;
 		readonly logout?: (event: RequestEvent) => Promise<void> | void;
 	};
