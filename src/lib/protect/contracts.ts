@@ -7,8 +7,6 @@ export interface ProtectTokens {
 }
 
 export interface ProtectConfig {
-	readonly jwtDecodeAndVerifyIdToken: (token: string) => Promise<unknown> | unknown;
-	readonly jwtDecodeAndVerifyAccessToken: (token: string) => Promise<unknown> | unknown;
 	readonly session: {
 		readonly exists: (event: RequestEvent) => Promise<boolean> | boolean;
 		readonly statePersist?: (event: RequestEvent, state: string) => Promise<void> | void;
@@ -22,12 +20,7 @@ export interface ProtectConfig {
 		readonly baseUrl: string;
 		readonly authorizePath?: string;
 		readonly logoutPath?: string;
+		readonly jwksUrl: string;
+		readonly issuer: string;
 	}
 }
-
-export interface Route {
-	readonly path: string;
-	readonly handle: Handle;
-}
-
-export type RouteFactory = (config: ProtectConfig) => Route | undefined;

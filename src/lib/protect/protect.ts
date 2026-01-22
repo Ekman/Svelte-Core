@@ -4,6 +4,7 @@ import type { ProtectConfig } from "./contracts.js";
 import { ROUTE_PATH_LOGOUT, routeLogoutFactory } from "./routes/logout.js";
 import { routeRedirectLoginFactory } from "./routes/redirect-login.js";
 import { routeRedirectLogoutFactory } from "./routes/redirect-logout.js";
+import { routeCreate } from "./routes/routes.ts";
 
 const routeFactories = Object.freeze([
 	routeLoginFactory,
@@ -16,13 +17,7 @@ export const PROTECT_LOGIN = "/" + ROUTE_PATH_LOGIN;
 export const PROTECT_LOGOUT = "/" + ROUTE_PATH_LOGOUT;
 
 export function protect(config: ProtectConfig): Handle {
-	const routes = new Map(
-		routeFactories
-			.map(routeFactory => routeFactory(config))
-			.filter(route => Boolean(route))
-			// @ts-expect-error Incorrect typing error.
-			.map(route => [`/${route.path}`, route.handle]),
-	);
+	const routes = routeCreate(config);
 
 	return async ({ event, resolve }) => {
 		const routeHandle = routes.get(event.url.pathname);

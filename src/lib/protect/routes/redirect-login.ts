@@ -1,12 +1,15 @@
 import { redirect } from "@sveltejs/kit";
-import type { ProtectConfig, RouteFactory } from "../contracts.js";
+import type { ProtectConfig } from "../contracts.js";
 import { noop, throwIfUndefined } from "@nekm/core";
-import { getRedirectUri } from "../helper.js";
+import { getRedirectUri, jwtVerifyAccessToken, jwtVerifyIdToken } from "../helper.js";
+import { createRemoteJWKSet } from "jose";
+import type { RouteFactory } from "./routes.ts";
 
 export const ROUTE_PATH_REDIRECT_LOGIN = "_auth/redirect/login";
 
 export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) => {
 	const stateGet = config.session.stateGet ?? noop;
+	const jwksUrl = new URL(config.oauth.jwksUrl);
 
 	async function exchangeCodeForToken(
 		fetch: typeof window.fetch,
@@ -48,12 +51,20 @@ export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) =
 			throwIfUndefined(code);
 
 			const auth = await exchangeCodeForToken(fetch, event.url.origin, code);
-			// @ts-expect-error Ignore, for now
-			const id = await config.jwtDecodeAndVerifyIdToken(auth.id_token);
-			// @ts-expect-error Ignore, for now
-			const access = await config.jwtDecodeAndVerifyAccessToken(auth.access_token);
 
-			await config.session.login(event, { auth, id, access });
+			const jwks = createRemoteJWKSet(jwksUrl);
+
+			const [ id, access ] = await Promise.all([
+				// @ts-expect-error It's OK
+				jwtVerifyIdToken(config, jwks, auth.id_token),
+				// @ts-expect-error It's OK
+				jwtVerifyAccessToken(config, jwks, auth.access_token),
+			]);
+
+			await config.session.login(
+				event,
+				{ auth, id, access },
+			);
 
 			throw redirect(302, "/");
 		}

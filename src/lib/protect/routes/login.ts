@@ -1,9 +1,10 @@
 import { redirect } from "@sveltejs/kit";
-import type { ProtectConfig, RouteFactory } from "../contracts.js";
+import type { ProtectConfig } from "../contracts.js";
 import { noop, queryParamsCreate } from "@nekm/core";
 import { getRedirectUri } from "../helper.js";
 import { ROUTE_PATH_REDIRECT_LOGIN } from "./redirect-login.js";
 import { randomUUID } from "node:crypto";
+import type { RouteFactory } from "./routes.ts";
 
 export const ROUTE_PATH_LOGIN = "_auth/login";
 

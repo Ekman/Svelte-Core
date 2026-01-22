@@ -46,6 +46,7 @@
   "dependencies": {
     "@nekm/core": "1.*",
     "@sveltejs/kit": "2.*",
+    "jose": "6.*",
     "svelte": "5.*"
   }
 }
