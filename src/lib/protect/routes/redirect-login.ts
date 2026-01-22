@@ -38,7 +38,7 @@ export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) =
 		path: ROUTE_PATH_REDIRECT_LOGIN,
 		async handle({ event }) {
 			const state = event.url.searchParams.get("state") ?? undefined;;
-			const stateSession = await config.session.stateGet();
+			const stateSession = await config.session.stateGet(event);
 
 			if (state !== stateSession) {
 				throw new Error("State do not match");
@@ -47,13 +47,13 @@ export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) =
 			const code = event.url.searchParams.get("code") ?? undefined;
 			throwIfUndefined(code);
 
-			const authToken = await exchangeCodeForToken(fetch, event.url.origin, code);
+			const auth = await exchangeCodeForToken(fetch, event.url.origin, code);
 			// @ts-expect-error Ignore, for now
-			const idToken = await config.jwtDecodeAndVerifyIdToken(authToken.id_token);
+			const id = await config.jwtDecodeAndVerifyIdToken(auth.id_token);
 			// @ts-expect-error Ignore, for now
-			const accessToken = await config.jwtDecodeAndVerifyAccessToken(authToken.access_token);
+			const access = await config.jwtDecodeAndVerifyAccessToken(auth.access_token);
 
-			await onLogin(authToken, idToken, accessToken);
+			await onLogin(event, { auth, id, access });
 
 			throw redirect(302, "/");
 		}

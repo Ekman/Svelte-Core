@@ -12,7 +12,7 @@ export const routeLoginFactory: RouteFactory = (config: ProtectConfig) => {
 	return {
 		path: ROUTE_PATH_LOGIN,
 		async handle({ event }) {
-			const state = await config.session.stateGenerate();
+			const state = await config.session.stateGenerate(event);
 
 			const params = queryParamsCreate({
 				client_id: config.oauth.clientId,
