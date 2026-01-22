@@ -1,8 +1,8 @@
 import { redirect } from "@sveltejs/kit";
-import type { ProtectConfig, RouteFactory } from "../contracts.ts";
+import type { ProtectConfig, RouteFactory } from "../contracts.js";
 import { queryParamsCreate } from "@nekm/core";
-import { getRedirectUri } from "../helper.ts";
-import { ROUTE_PATH_REDIRECT_LOGIN } from "./redirect-login.ts";
+import { getRedirectUri } from "../helper.js";
+import { ROUTE_PATH_REDIRECT_LOGIN } from "./redirect-login.js";
 
 export const ROUTE_PATH_LOGIN = "/_auth/login";
 

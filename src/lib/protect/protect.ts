@@ -1,9 +1,9 @@
 import { error, redirect, type Handle } from "@sveltejs/kit";
-import { ROUTE_PATH_LOGIN, routeLoginFactory } from "./routes/login.ts";
-import type { ProtectConfig } from "./contracts.ts";
-import { routeLogoutFactory } from "./routes/logout.ts";
-import { routeRedirectLoginFactory } from "./routes/redirect-login.ts";
-import { routeRedirectLogoutFactory } from "./routes/redirect-logout.ts";
+import { ROUTE_PATH_LOGIN, routeLoginFactory } from "./routes/login.js";
+import type { ProtectConfig } from "./contracts.js";
+import { routeLogoutFactory } from "./routes/logout.js";
+import { routeRedirectLoginFactory } from "./routes/redirect-login.js";
+import { routeRedirectLogoutFactory } from "./routes/redirect-logout.js";
 
 const routeFactories = Object.freeze([
 	routeLoginFactory,

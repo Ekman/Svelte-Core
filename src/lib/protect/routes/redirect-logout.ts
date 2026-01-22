@@ -1,5 +1,5 @@
 import { redirect } from "@sveltejs/kit";
-import type { ProtectConfig, RouteFactory } from "../contracts.ts";
+import type { ProtectConfig, RouteFactory } from "../contracts.js";
 import { noop } from "@nekm/core";
 
 export const ROUTE_PATH_REDIRECT_LOGOUT = "/_auth/redirect/logout";
