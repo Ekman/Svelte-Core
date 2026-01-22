@@ -6,7 +6,7 @@ import { getRedirectUri } from "../helper.js";
 export const ROUTE_PATH_REDIRECT_LOGIN = "_auth/redirect/login";
 
 export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) => {
-	const onLogin = config.hooks?.onLogin ?? noop;
+	const stateGet = config.session.stateGet ?? noop;
 
 	async function exchangeCodeForToken(
 		fetch: typeof window.fetch,
@@ -38,7 +38,7 @@ export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) =
 		path: ROUTE_PATH_REDIRECT_LOGIN,
 		async handle({ event }) {
 			const state = event.url.searchParams.get("state") ?? undefined;;
-			const stateSession = await config.session.stateGet(event);
+			const stateSession = await stateGet(event);
 
 			if (state !== stateSession) {
 				throw new Error("State do not match");
@@ -53,7 +53,7 @@ export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) =
 			// @ts-expect-error Ignore, for now
 			const access = await config.jwtDecodeAndVerifyAccessToken(auth.access_token);
 
-			await onLogin(event, { auth, id, access });
+			await config.session.login(event, { auth, id, access });
 
 			throw redirect(302, "/");
 		}

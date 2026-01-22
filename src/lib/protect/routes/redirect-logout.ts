@@ -10,12 +10,12 @@ export const routeRedirectLogoutFactory: RouteFactory = (config: ProtectConfig) 
 		return undefined;
 	}
 
-	const onLogout = config.hooks?.onLogout ?? noop;
+	const logout = config.session.logout ?? noop;
 
 	return {
 		path: ROUTE_PATH_REDIRECT_LOGOUT,
 		async handle({ event }) {
-			await onLogout(event);
+			await logout(event);
 			throw redirect(302, "/");
 		}
 	}

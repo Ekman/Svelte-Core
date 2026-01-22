@@ -1,7 +1,7 @@
 import { error, redirect, type Handle } from "@sveltejs/kit";
 import { ROUTE_PATH_LOGIN, routeLoginFactory } from "./routes/login.js";
 import type { ProtectConfig } from "./contracts.js";
-import { routeLogoutFactory } from "./routes/logout.js";
+import { ROUTE_PATH_LOGOUT, routeLogoutFactory } from "./routes/logout.js";
 import { routeRedirectLoginFactory } from "./routes/redirect-login.js";
 import { routeRedirectLogoutFactory } from "./routes/redirect-logout.js";
 
@@ -12,9 +12,10 @@ const routeFactories = Object.freeze([
 	routeRedirectLogoutFactory,
 ]);
 
-export function protect(config: ProtectConfig): Handle {
-	const protect = config.protect ?? (() => true);
+export const PROTECT_LOGIN = "/" + ROUTE_PATH_LOGIN;
+export const PROTECT_LOGOUT = "/" + ROUTE_PATH_LOGOUT;
 
+export function protect(config: ProtectConfig): Handle {
 	const routes = new Map(
 		routeFactories
 			.map(routeFactory => routeFactory(config))
@@ -33,7 +34,9 @@ export function protect(config: ProtectConfig): Handle {
 			throw error(500, "Illegal state");
 		}
 
-		if (await protect(event) && !(await config.session.exists(event))) {
+		const sessionExists = await config.session.exists(event);
+
+		if (!sessionExists) {
 			throw redirect(303, ROUTE_PATH_LOGIN);
 		}
 

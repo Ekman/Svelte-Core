@@ -1,18 +1,21 @@
 import { redirect } from "@sveltejs/kit";
 import type { ProtectConfig, RouteFactory } from "../contracts.js";
-import { queryParamsCreate } from "@nekm/core";
+import { noop, queryParamsCreate } from "@nekm/core";
 import { getRedirectUri } from "../helper.js";
 import { ROUTE_PATH_REDIRECT_LOGIN } from "./redirect-login.js";
+import { randomUUID } from "node:crypto";
 
 export const ROUTE_PATH_LOGIN = "_auth/login";
 
 export const routeLoginFactory: RouteFactory = (config: ProtectConfig) => {
 	const authorizeUrl = `${config.oauth.baseUrl}/${config.oauth.authorizePath ?? "/oauth2/authorize"}`;
+	const statePersist = config.session.statePersist ?? noop;
 
 	return {
 		path: ROUTE_PATH_LOGIN,
 		async handle({ event }) {
-			const state = await config.session.stateGenerate(event);
+			const state = randomUUID();
+			await statePersist(event, state);
 
 			const params = queryParamsCreate({
 				client_id: config.oauth.clientId,
