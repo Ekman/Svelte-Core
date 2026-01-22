@@ -33,10 +33,10 @@ export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) =
 			}
 		);
 
-	if (!response.ok) {
-		const error = await response.text();
-    throw new Error(`Token exchange failed: ${error}`);
-  }
+		if (!response.ok) {
+			const error = await response.text();
+			throw new Error(`Token exchange failed: ${error}`);
+		}
 
 		return await response.json();
 	}
@@ -58,7 +58,7 @@ export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) =
 
 			const jwks = createRemoteJWKSet(jwksUrl);
 
-			const [ id, access ] = await Promise.all([
+			const [id, access] = await Promise.all([
 				// @ts-expect-error It's OK
 				jwtVerifyIdToken(config, jwks, auth.id_token),
 				// @ts-expect-error It's OK
