@@ -1,8 +1,9 @@
 import { redirect } from "@sveltejs/kit";
-import type { ProtectConfig, RouteFactory } from "../contracts.js";
+import type { ProtectConfig } from "../contracts.js";
 import { queryParamsCreate } from "@nekm/core";
 import { getRedirectUri } from "../helper.js";
 import { ROUTE_PATH_REDIRECT_LOGOUT } from "./redirect-logout.js";
+import type { RouteFactory } from "./routes.ts";
 
 export const ROUTE_PATH_LOGOUT = "_auth/logout";
 

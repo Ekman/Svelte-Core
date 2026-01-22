@@ -1,7 +1,7 @@
 {
   "name": "@nekm/svelte-core",
   "description": "Code I find myself re-writing over-and-over, Svelte edition.",
-	"license": "MIT",
+  "license": "MIT",
   "version": "0.0.1",
   "scripts": {
     "dev": "vite dev",
@@ -33,6 +33,7 @@
     "@sveltejs/adapter-auto": "^7.0.0",
     "@sveltejs/package": "^2.5.7",
     "@sveltejs/vite-plugin-svelte": "^6.2.1",
+    "@types/node": "^25.0.10",
     "publint": "^0.3.15",
     "svelte-check": "^4.3.4",
     "typescript": "^5.9.3",
@@ -45,6 +46,7 @@
   "dependencies": {
     "@nekm/core": "1.*",
     "@sveltejs/kit": "2.*",
+    "jose": "6.*",
     "svelte": "5.*"
   }
 }

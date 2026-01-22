@@ -1,27 +1,14 @@
 import { error, redirect, type Handle } from "@sveltejs/kit";
-import { ROUTE_PATH_LOGIN, routeLoginFactory } from "./routes/login.js";
+import { ROUTE_PATH_LOGIN } from "./routes/login.js";
 import type { ProtectConfig } from "./contracts.js";
-import { routeLogoutFactory } from "./routes/logout.js";
-import { routeRedirectLoginFactory } from "./routes/redirect-login.js";
-import { routeRedirectLogoutFactory } from "./routes/redirect-logout.js";
+import { ROUTE_PATH_LOGOUT } from "./routes/logout.js";
+import { routeCreate } from "./routes/routes.ts";
 
-const routeFactories = Object.freeze([
-	routeLoginFactory,
-	routeLogoutFactory,
-	routeRedirectLoginFactory,
-	routeRedirectLogoutFactory,
-]);
+export const PROTECT_LOGIN = "/" + ROUTE_PATH_LOGIN;
+export const PROTECT_LOGOUT = "/" + ROUTE_PATH_LOGOUT;
 
 export function protect(config: ProtectConfig): Handle {
-	const protect = config.protect ?? (() => true);
-
-	const routes = new Map(
-		routeFactories
-			.map(routeFactory => routeFactory(config))
-			.filter(route => Boolean(route))
-			// @ts-expect-error Incorrect typing error.
-			.map(route => [`/${route.path}`, route.handle]),
-	);
+	const routes = routeCreate(config);
 
 	return async ({ event, resolve }) => {
 		const routeHandle = routes.get(event.url.pathname);
@@ -33,7 +20,9 @@ export function protect(config: ProtectConfig): Handle {
 			throw error(500, "Illegal state");
 		}
 
-		if (await protect(event) && !(await config.session.exists(event))) {
+		const sessionExists = await config.session.exists(event);
+
+		if (!sessionExists) {
 			throw redirect(303, ROUTE_PATH_LOGIN);
 		}
 
