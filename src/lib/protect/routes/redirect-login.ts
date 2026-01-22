@@ -33,13 +33,18 @@ export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) =
 			}
 		);
 
+	if (!response.ok) {
+		const error = await response.text();
+    throw new Error(`Token exchange failed: ${error}`);
+  }
+
 		return await response.json();
 	}
 
 	return {
 		path: ROUTE_PATH_REDIRECT_LOGIN,
 		async handle({ event }) {
-			const state = event.url.searchParams.get("state") ?? undefined;;
+			const state = event.url.searchParams.get("state") ?? undefined;
 			const stateSession = await config.session.stateGet(event);
 
 			if (state !== stateSession) {

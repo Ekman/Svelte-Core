@@ -1,32 +1,28 @@
 import { strTrimEnd } from "@nekm/core";
 import type { ProtectConfig } from "./contracts.js";
-import { jwtVerify } from "jose";
+import { jwtVerify, type JWTVerifyGetKey, type JWTVerifyOptions } from "jose";
 
 export function getRedirectUri(origin: string, path: string): string {
 	return `${strTrimEnd(origin, "/")}/${path}`;
 }
 
-export async function jwtVerifyIdToken(config: ProtectConfig, jwks: unknown, idToken: string) {
-	const { payload } = await jwtVerify(
-		idToken,
-		// @ts-expect-error It's OK.
+export function jwtVerifyIdToken(config: ProtectConfig, jwks: JWTVerifyGetKey, idToken: string) {
+	return jwtVerifyToken(
 		jwks,
 		{
 			issuer: config.oauth.issuer,
 			audience: config.oauth.clientId,
-		}
+		},
+		idToken,
 	);
-
-	return payload;
 }
 
-export async function jwtVerifyAccessToken(config: ProtectConfig, jwks: unknown, accessToken: string) {
-	const { payload } = await jwtVerify(
-		accessToken,
-		// @ts-expect-error It's OK.
-		jwks,
-		{ issuer: config.oauth.issuer }
-	);
+export function jwtVerifyAccessToken(config: ProtectConfig, jwks: JWTVerifyGetKey, accessToken: string) {
+	return jwtVerifyToken(jwks, { issuer: config.oauth.issuer }, accessToken);
+}
+
+async function jwtVerifyToken(jwks: JWTVerifyGetKey, options: JWTVerifyOptions, token: string) {
+	const { payload } = await jwtVerify(token, jwks, options);
 
 	return payload;
 }
