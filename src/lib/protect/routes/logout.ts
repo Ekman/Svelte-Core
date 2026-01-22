@@ -4,7 +4,7 @@ import { queryParamsCreate } from "@nekm/core";
 import { getRedirectUri } from "../helper.js";
 import { ROUTE_PATH_REDIRECT_LOGOUT } from "./redirect-logout.js";
 
-export const ROUTE_PATH_LOGOUT = "/_auth/logout";
+export const ROUTE_PATH_LOGOUT = "_auth/logout";
 
 export const routeLogoutFactory: RouteFactory = (config: ProtectConfig) => {
 	// Check if the oauth provider supports a logout path.

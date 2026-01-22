@@ -4,7 +4,7 @@ import { queryParamsCreate } from "@nekm/core";
 import { getRedirectUri } from "../helper.js";
 import { ROUTE_PATH_REDIRECT_LOGIN } from "./redirect-login.js";
 
-export const ROUTE_PATH_LOGIN = "/_auth/login";
+export const ROUTE_PATH_LOGIN = "_auth/login";
 
 export const routeLoginFactory: RouteFactory = (config: ProtectConfig) => {
 	const authorizeUrl = `${config.oauth.baseUrl}/${config.oauth.authorizePath ?? "/oauth2/authorize"}`;

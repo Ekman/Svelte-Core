@@ -20,7 +20,7 @@ export function protect(config: ProtectConfig): Handle {
 			.map(routeFactory => routeFactory(config))
 			.filter(route => Boolean(route))
 			// @ts-expect-error Incorrect typing error.
-			.map(route => [route.path, route.handle]),
+			.map(route => [`/${route.path}`, route.handle]),
 	);
 
 	return async ({ event, resolve }) => {
