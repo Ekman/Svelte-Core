@@ -1,6 +1,6 @@
 import { redirect } from "@sveltejs/kit";
 import type { ProtectConfig } from "../contracts.js";
-import { throwIfUndefined } from "@nekm/core";
+import {strTrimEnd, throwIfUndefined} from "@nekm/core";
 import {cookieGetAndDelete, getRedirectUri, jwtVerifyAccessToken, jwtVerifyIdToken, STATE_KEY} from "../helper.js";
 import { createRemoteJWKSet } from "jose";
 import type { RouteFactory } from "./routes.js";
@@ -8,7 +8,8 @@ import type { RouteFactory } from "./routes.js";
 export const ROUTE_PATH_REDIRECT_LOGIN = "_auth/redirect/login";
 
 export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) => {
-	const jwksUrl = new URL(config.oauth.jwksUrl ?? `${config.oauth.issuer}/.well-known/jwks.json`);
+	const jwksUrl = new URL(config.oauth.jwksUrl ?? `${strTrimEnd(config.oauth.issuer, '/')}/.well-known/jwks.json`);
+	const tokenUrl = `${config.oauth.baseUrl}/${config.oauth.tokenPath ?? 'oauth2/token'}`;
 
 	async function exchangeCodeForToken(
 		fetch: typeof window.fetch,
@@ -16,7 +17,7 @@ export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) =
 		code: string,
 	): Promise<unknown> {
 		const response = await fetch(
-			`${config.oauth.baseUrl}/oauth2/token`,
+			tokenUrl,
 			{
 				method: "POST",
 				headers: {

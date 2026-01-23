@@ -16,9 +16,10 @@ export interface ProtectConfig {
 		readonly clientId: string;
 		readonly clientSecret: string;
 		readonly baseUrl: string;
-		readonly authorizePath?: string;
-		readonly logoutPath?: string;
 		readonly jwksUrl?: string;
 		readonly issuer: string;
+		readonly authorizePath?: string;
+		readonly logoutPath?: string;
+		readonly tokenPath?: string;
 	}
 }
