@@ -1,7 +1,7 @@
 import { redirect } from "@sveltejs/kit";
 import type { ProtectConfig } from "../contracts.js";
 import { throwIfUndefined } from "@nekm/core";
-import { getRedirectUri, jwtVerifyAccessToken, jwtVerifyIdToken } from "../helper.js";
+import {cookieGetAndDelete, getRedirectUri, jwtVerifyAccessToken, jwtVerifyIdToken, STATE_KEY} from "../helper.js";
 import { createRemoteJWKSet } from "jose";
 import type { RouteFactory } from "./routes.js";
 
@@ -45,9 +45,9 @@ export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) =
 		path: ROUTE_PATH_REDIRECT_LOGIN,
 		async handle({ event }) {
 			const state = event.url.searchParams.get("state") ?? undefined;
-			const stateSession = await config.session.stateGet(event);
+			const stateCookie = cookieGetAndDelete(event.cookies, STATE_KEY);
 
-			if (state !== stateSession) {
+			if (state !== stateCookie) {
 				throw new Error("State do not match");
 			}
 

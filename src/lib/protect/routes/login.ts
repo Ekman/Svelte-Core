@@ -1,7 +1,7 @@
 import { redirect } from "@sveltejs/kit";
 import type { ProtectConfig } from "../contracts.js";
 import { queryParamsCreate } from "@nekm/core";
-import { getRedirectUri } from "../helper.js";
+import {cookieSet, getRedirectUri, STATE_KEY} from "../helper.js";
 import { ROUTE_PATH_REDIRECT_LOGIN } from "./redirect-login.js";
 import { randomUUID } from "node:crypto";
 import type { RouteFactory } from "./routes.js";
@@ -15,7 +15,7 @@ export const routeLoginFactory: RouteFactory = (config: ProtectConfig) => {
 		path: ROUTE_PATH_LOGIN,
 		async handle({ event }) {
 			const state = randomUUID();
-			await config.session.statePersist(event, state);
+			cookieSet(event.cookies, STATE_KEY, state);
 
 			const params = queryParamsCreate({
 				client_id: config.oauth.clientId,
