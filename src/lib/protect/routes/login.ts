@@ -6,7 +6,7 @@ import { ROUTE_PATH_REDIRECT_LOGIN } from "./redirect-login.js";
 import { randomUUID } from "node:crypto";
 import type { RouteFactory } from "./routes.js";
 
-export const ROUTE_PATH_LOGIN = "_auth/login";
+export const ROUTE_PATH_LOGIN = "/_auth/login";
 
 export const routeLoginFactory: RouteFactory = (config: ProtectConfig) => {
 	const authorizeUrl = `${config.oauth.baseUrl}/${config.oauth.authorizePath ?? "/oauth2/authorize"}`;

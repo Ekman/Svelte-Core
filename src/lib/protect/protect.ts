@@ -4,8 +4,8 @@ import type { ProtectConfig } from "./contracts.js";
 import { ROUTE_PATH_LOGOUT } from "./routes/logout.js";
 import { routeCreate } from "./routes/routes.js";
 
-export const PROTECT_LOGIN = "/" + ROUTE_PATH_LOGIN;
-export const PROTECT_LOGOUT = "/" + ROUTE_PATH_LOGOUT;
+export const PROTECT_LOGIN = ROUTE_PATH_LOGIN;
+export const PROTECT_LOGOUT = ROUTE_PATH_LOGOUT;
 
 export function protect(config: ProtectConfig): Handle {
 	const routes = routeCreate(config);
@@ -23,7 +23,7 @@ export function protect(config: ProtectConfig): Handle {
 		const sessionExists = await config.session.exists(event);
 
 		if (!sessionExists) {
-			throw redirect(303, ROUTE_PATH_LOGIN);
+			throw redirect(302, ROUTE_PATH_LOGIN);
 		}
 
 		return await resolve(event);

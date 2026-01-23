@@ -3,7 +3,7 @@ import type { ProtectConfig } from "../contracts.js";
 import { noop } from "@nekm/core";
 import type { RouteFactory } from "./routes.js";
 
-export const ROUTE_PATH_REDIRECT_LOGOUT = "_auth/redirect/logout";
+export const ROUTE_PATH_REDIRECT_LOGOUT = "/_auth/redirect/logout";
 
 export const routeRedirectLogoutFactory: RouteFactory = (config: ProtectConfig) => {
 		// Check if the oauth provider supports a logout path.

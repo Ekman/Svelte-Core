@@ -25,6 +25,6 @@ export function routeCreate(config: ProtectConfig): Map<string, Handle> {
 			.map(routeFactory => routeFactory(config))
 			.filter(route => Boolean(route))
 			// @ts-expect-error Incorrect typing error.
-			.map(route => [`/${route.path}`, route.handle]),
+			.map(route => [route.path, route.handle]),
 	);
 }

@@ -5,7 +5,7 @@ import {cookieGetAndDelete, getRedirectUri, jwtVerifyAccessToken, jwtVerifyIdTok
 import { createRemoteJWKSet } from "jose";
 import type { RouteFactory } from "./routes.js";
 
-export const ROUTE_PATH_REDIRECT_LOGIN = "_auth/redirect/login";
+export const ROUTE_PATH_REDIRECT_LOGIN = "/_auth/redirect/login";
 
 export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) => {
 	const jwksUrl = new URL(config.oauth.jwksUrl ?? `${strTrimEnd(config.oauth.issuer, '/')}/.well-known/jwks.json`);

@@ -5,7 +5,7 @@ import { getRedirectUri } from "../helper.js";
 import { ROUTE_PATH_REDIRECT_LOGOUT } from "./redirect-logout.js";
 import type { RouteFactory } from "./routes.js";
 
-export const ROUTE_PATH_LOGOUT = "_auth/logout";
+export const ROUTE_PATH_LOGOUT = "/_auth/logout";
 
 export const routeLogoutFactory: RouteFactory = (config: ProtectConfig) => {
 	// Check if the oauth provider supports a logout path.
