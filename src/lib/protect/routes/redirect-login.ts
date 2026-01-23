@@ -8,7 +8,7 @@ import type { RouteFactory } from "./routes.js";
 export const ROUTE_PATH_REDIRECT_LOGIN = "_auth/redirect/login";
 
 export const routeRedirectLoginFactory: RouteFactory = (config: ProtectConfig) => {
-	const jwksUrl = new URL(config.oauth.jwksUrl);
+	const jwksUrl = new URL(config.oauth.jwksUrl ?? `${config.oauth.issuer}/.well-known/jwks.json`);
 
 	async function exchangeCodeForToken(
 		fetch: typeof window.fetch,

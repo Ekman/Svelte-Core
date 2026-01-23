@@ -18,7 +18,7 @@ export interface ProtectConfig {
 		readonly baseUrl: string;
 		readonly authorizePath?: string;
 		readonly logoutPath?: string;
-		readonly jwksUrl: string;
+		readonly jwksUrl?: string;
 		readonly issuer: string;
 	}
 }
