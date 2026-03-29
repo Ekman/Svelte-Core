@@ -19,6 +19,11 @@
 		readonly mimeContentType: string;
 	}
 
+	export interface SeoTwitter {
+		readonly creator?: string;
+		readonly site?: string;
+	}
+
 	export interface SeoProps {
 		readonly siteTitle: string;
 		readonly pageTitle: string;
@@ -27,7 +32,7 @@
 		readonly icon: SeoIcon;
 		readonly canonical?: SeoCanonical;
 		readonly next?: SeoCanonical;
-		readonly twitterCreator?: string;
+		readonly twitter?: SeoTwitter;
 	}
 
 	const {
@@ -38,7 +43,7 @@
 		canonical,
 		next,
 		origin: propsOrigin,
-		twitterCreator,
+		twitter,
 	}: SeoProps = $props();
 
 	function createCanonical(canonical: SeoCanonical): string | undefined {
@@ -84,7 +89,11 @@
 	<meta name="twitter:description" content={description} />
 	<meta name="twitter:image" content={iconHref} />
 
-	{#if twitterCreator}
-		<meta name="twitter:creator" content="@iamBraska" />
+	{#if twitter?.creator}
+		<meta name="twitter:creator" content="@{twitter.creator}" />
+	{/if}
+
+	{#if twitter?.site}
+		<meta name="twitter:site" content="@{twitter.site}" />
 	{/if}
 </svelte:head>
