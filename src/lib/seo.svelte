@@ -14,9 +14,9 @@
 
 	export interface SeoIcon {
 		readonly href: string;
+		readonly mimeContentType: string;
 		readonly height: number;
 		readonly width: number;
-		readonly mimeContentType: string;
 	}
 
 	export interface SeoTwitter {
@@ -42,9 +42,9 @@
 		description,
 		icon,
 		additionalIcons = [],
-		canonical,
+		canonical = { path: page.url.pathname },
 		next,
-		origin: propsOrigin,
+		origin = page.url.origin,
 		twitter,
 	}: SeoProps = $props();
 
@@ -52,18 +52,16 @@
 		if (!canonical.path) return origin;
 
 		const path = strTrimStart(canonical.path, "/");
-		const canonicalWithPath = `${origin}/${path}`;
+		if (path.length <= 0) return origin;
 
+		const canonicalWithPath = `${origin}/${path}`;
 		if (!canonical.queryParams) return canonicalWithPath;
 
 		return `${canonicalWithPath}?${queryParamsCreate(canonical.queryParams)}`;
 	}
 
-	const origin = $derived(propsOrigin ?? page.url.origin);
 	const iconHref = $derived(urlSetOrigin(origin, icon.href));
-	const canonicalUrl = $derived(
-		!canonical ? origin : createCanonical(canonical),
-	);
+	const canonicalUrl = $derived(createCanonical(canonical));
 	const nextUrl = $derived(!next ? undefined : createCanonical(next));
 	const additionalAppleIcons = $derived(
 		additionalIcons.filter((i) => i.mimeContentType === "image/png"),
