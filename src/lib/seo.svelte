@@ -30,6 +30,7 @@
 		readonly description: string;
 		readonly origin?: string;
 		readonly icon: SeoIcon;
+		readonly additionalIcons: ReadonlyArray<SeoIcon>;
 		readonly canonical?: SeoCanonical;
 		readonly next?: SeoCanonical;
 		readonly twitter?: SeoTwitter;
@@ -40,6 +41,7 @@
 		pageTitle,
 		description,
 		icon,
+		additionalIcons,
 		canonical,
 		next,
 		origin: propsOrigin,
@@ -59,7 +61,9 @@
 
 	const origin = $derived(propsOrigin ?? page.url.origin);
 	const iconHref = $derived(urlSetOrigin(origin, icon.href));
-	const canonicalUrl = $derived(!canonical ? origin : createCanonical(canonical));
+	const canonicalUrl = $derived(
+		!canonical ? origin : createCanonical(canonical),
+	);
 	const nextUrl = $derived(!next ? undefined : createCanonical(next));
 </script>
 
@@ -67,6 +71,21 @@
 	<title>{pageTitle} | {siteTitle}</title>
 	<meta name="description" content={description} />
 	<link rel="canonical" href={canonicalUrl} />
+	<link
+		rel="icon"
+		type={icon.mimeContentType}
+		sizes="{icon.width}x{icon.height}"
+		href={icon.href}
+	/>
+
+	{#each additionalIcons as icon}
+		<link
+			rel="icon"
+			type={icon.mimeContentType}
+			sizes="{icon.width}x{icon.height}"
+			href={icon.href}
+		/>
+	{/each}
 
 	{#if nextUrl}
 		<link rel="next" href={nextUrl} />
