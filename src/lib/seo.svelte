@@ -65,18 +65,34 @@
 		!canonical ? origin : createCanonical(canonical),
 	);
 	const nextUrl = $derived(!next ? undefined : createCanonical(next));
+	const additionalAppleIcons = $derived(
+		additionalIcons.filter((i) => i.mimeContentType === "image/png"),
+	);
 </script>
 
 <svelte:head>
 	<title>{pageTitle} | {siteTitle}</title>
 	<meta name="description" content={description} />
+
 	<link rel="canonical" href={canonicalUrl} />
+	{#if nextUrl}
+		<link rel="next" href={nextUrl} />
+	{/if}
+
 	<link
 		rel="icon"
 		type={icon.mimeContentType}
 		sizes="{icon.width}x{icon.height}"
 		href={icon.href}
 	/>
+
+	{#if icon.mimeContentType === "image/png"}
+		<link
+			rel="apple-touch-icon"
+			sizes="{icon.width}x{icon.height}"
+			href={icon.href}
+		/>
+	{/if}
 
 	{#each additionalIcons as icon}
 		<link
@@ -87,9 +103,13 @@
 		/>
 	{/each}
 
-	{#if nextUrl}
-		<link rel="next" href={nextUrl} />
-	{/if}
+	{#each additionalAppleIcons as icon}
+		<link
+			rel="apple-touch-icon"
+			sizes="{icon.width}x{icon.height}"
+			href={icon.href}
+		/>
+	{/each}
 
 	<meta property="og:site_name" content={siteTitle} />
 	<meta property="og:title" content={pageTitle} />
