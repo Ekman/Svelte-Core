@@ -30,7 +30,7 @@
 		readonly description: string;
 		readonly origin?: string;
 		readonly icon: SeoIcon;
-		readonly additionalIcons: ReadonlyArray<SeoIcon>;
+		readonly additionalIcons?: ReadonlyArray<SeoIcon>;
 		readonly canonical?: SeoCanonical;
 		readonly next?: SeoCanonical;
 		readonly twitter?: SeoTwitter;
@@ -41,7 +41,7 @@
 		pageTitle,
 		description,
 		icon,
-		additionalIcons,
+		additionalIcons = [],
 		canonical,
 		next,
 		origin: propsOrigin,
