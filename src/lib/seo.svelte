@@ -1,5 +1,11 @@
 <script lang="ts">
-	import {type QueryParams, queryParamsCreate, strTrimEnd, strTrimStart} from "@nekm/core";
+	import { page } from "$app/state";
+	import {
+		type QueryParams,
+		queryParamsCreate,
+		strTrimStart,
+		urlSetOrigin,
+	} from "@nekm/core";
 
 	export interface SeoCanonical {
 		readonly path?: string;
@@ -17,42 +23,39 @@
 		readonly siteTitle: string;
 		readonly pageTitle: string;
 		readonly description: string;
-		readonly origin: string;
+		readonly origin?: string;
 		readonly icon: SeoIcon;
 		readonly canonical?: SeoCanonical;
 		readonly next?: SeoCanonical;
+		readonly twitterCreator?: string;
 	}
 
-	const { siteTitle, description, pageTitle, icon, canonical, next, origin }: SeoProps = $props();
+	const {
+		siteTitle,
+		pageTitle,
+		description,
+		icon,
+		canonical,
+		next,
+		origin: propsOrigin,
+		twitterCreator,
+	}: SeoProps = $props();
 
-	function createCanonical(canonical?: SeoCanonical, includeBaseUrl = false): string | undefined {
-		let url;
+	function createCanonical(canonical: SeoCanonical): string | undefined {
+		if (!canonical.path) return origin;
 
-		if (canonical || includeBaseUrl) {
-			url = origin;
-		}
+		const path = strTrimStart(canonical.path, "/");
+		const canonicalWithPath = `${origin}/${path}`;
 
-		if (canonical?.path) {
-			url += `/${canonical.path}`;
-		}
+		if (!canonical.queryParams) return canonicalWithPath;
 
-		if (canonical?.queryParams) {
-			const queryParamsStr = queryParamsCreate(canonical.queryParams)
-			url += `?${queryParamsStr}`;
-		}
-
-		return url;
+		return `${canonicalWithPath}?${queryParamsCreate(canonical.queryParams)}`;
 	}
 
-	// Starts with http or https. I.e, is an absolute URL.
-	const iconHref = $derived.by(() => {
-		return !icon.href.match(/^https?:\/\//ig)
-			? `${strTrimEnd(origin, "/")}/${strTrimStart(icon.href, "/")}`
-			: icon.href;
-	});
-
-	const canonicalUrl = $derived(createCanonical(canonical, true));
-	const nextUrl = $derived(createCanonical(next));
+	const origin = $derived(propsOrigin ?? page.url.origin);
+	const iconHref = $derived(urlSetOrigin(origin, icon.href));
+	const canonicalUrl = $derived(!canonical ? origin : createCanonical(canonical));
+	const nextUrl = $derived(!next ? undefined : createCanonical(next));
 </script>
 
 <svelte:head>
@@ -76,9 +79,12 @@
 	<meta property="og:url" content={canonicalUrl} />
 	<meta property="og:type" content="website" />
 
-	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={pageTitle} />
 	<meta name="twitter:description" content={description} />
 	<meta name="twitter:image" content={iconHref} />
-	<meta name="twitter:creator" content="@iamBraska" />
+
+	{#if twitterCreator}
+		<meta name="twitter:creator" content="@iamBraska" />
+	{/if}
 </svelte:head>
