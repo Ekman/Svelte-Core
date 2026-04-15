@@ -1,18 +1,9 @@
-import { interval, timer } from "@nekm/core"
+import { interval } from "@nekm/core"
 
 export function effectTimer(waitMs: number, fn: () => void | Promise<void>): void {
 	$effect(() => {
-		let stop = false;
-
-		timer(waitMs).then(async () => {
-			if (!stop) {
-				await fn();
-			}
-		});
-
-		return () => {
-			stop = true;
-		}
+		const timeoutId = setTimeout(fn, waitMs);
+		return () => clearTimeout(timeoutId);
 	})
 }
 
