@@ -22,3 +22,4 @@ export { default as ExternalLink } from "./external-link.svelte";
 export * from "./external-link.svelte";
 
 export * from "./hooks.js";
+export * from "./timer.svelte.js";
