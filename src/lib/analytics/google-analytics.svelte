@@ -2,6 +2,8 @@
 	import {onMount} from "svelte";
 	import {browserImportScript} from "@nekm/core";
 	import {page} from "$app/state";
+	import { dev } from "$app/environment";
+	import { debug } from "node:console";
 
 	export interface GoogleAnalyticsProps {
 		/**
@@ -10,29 +12,20 @@
 		readonly id: string;
 
 		/**
-		 * Base domain to the production site. If the current domain does not match
-		 * this, then Google Analytics will send debug data only.
+		 * Activate debug mode. Defaults to true during dev
 		 */
-		readonly productionDomain?: string | URL;
+		readonly debugMode?: boolean;
 	}
 
-	interface GoogleAnalyticsConfig {
-		readonly debug_mode?: boolean;
-	}
-
-	const { id, productionDomain }: GoogleAnalyticsProps = $props();
+	const { id, debugMode = dev }: GoogleAnalyticsProps = $props();
 
 	const url = "https://www.googletagmanager.com";
 
-	const productionDomainStr = $derived(productionDomain instanceof URL ? productionDomain.hostname : productionDomain);
-
 	onMount(() => {
-		let config: GoogleAnalyticsConfig = { debug_mode: true };
+		let config: { readonly debug_mode?: boolean } = { };
 
-		if (productionDomain) {
-			if (page.url.hostname === productionDomainStr) {
-				config = {};
-			}
+		if (debugMode) {
+			config = { debug_mode: true };
 		}
 
 		window.dataLayer = window.dataLayer || [];
