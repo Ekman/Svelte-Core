@@ -1,9 +1,7 @@
 <script lang="ts">
 	import {onMount} from "svelte";
 	import {browserImportScript} from "@nekm/core";
-	import {page} from "$app/state";
 	import { dev } from "$app/environment";
-	import { debug } from "node:console";
 
 	export interface GoogleAnalyticsProps {
 		/**
