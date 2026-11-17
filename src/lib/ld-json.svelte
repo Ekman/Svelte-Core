@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {objectRemoveEmpty} from "@nekm/core";
-	import {dev} from "$app/environment";
+	import {dev} from "$app/env";
 
 	export interface LdJsonProps {
 		readonly schema: Record<string, unknown>;
