@@ -35,11 +35,13 @@
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^8.0.1",
+    "@sveltejs/kit": "^3.3.1",
     "@sveltejs/package": "^3.0.3",
     "@sveltejs/vite-plugin-svelte": "^7",
     "@types/node": "^25.5.0",
     "mongodb": "^7.1.1",
     "publint": "^0.3.18",
+    "svelte": "^5.58.0",
     "svelte-check": "^4.7.8",
     "svelte-kit-sessions": "^0.4.0",
     "typescript": "^6",
@@ -51,13 +53,12 @@
   ],
   "dependencies": {
     "@nekm/core": "1.*",
-    "@sveltejs/kit": "3.*",
-    "jose": "6.*",
-    "svelte": "5.*"
+    "jose": "6.*"
   },
   "peerDependencies": {
+    "@sveltejs/kit": "3.*",
     "mongodb": "7.*",
-    "svelte-kit-sessions": "0.4.*"
+    "svelte": "5.*"
   },
   "engines": {
     "node": ">=22.17"
@@ -66,5 +67,8 @@
     "svelte-kit-sessions": {
       "@sveltejs/kit": "$@sveltejs/kit"
     }
+  },
+  "optionalDependencies": {
+    "svelte-kit-sessions": "0.4.*"
   }
 }
